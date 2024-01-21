@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Switch, Text, View, SafeAreaView, TouchableOpacity } from "react-native";
+import { useState, useEffect } from "react";
+import React from 'react';
+import Body from "react-native-body-highlighter";
+import { COLORS, FONTS, SIZES, images, icons } from "../constants";
+import { Ionicons } from "@expo/vector-icons";
+import 'react-native-gesture-handler';
+import CircularProgress from 'react-native-circular-progress-indicator';
 import { LineChart, YAxis, Grid } from 'react-native-svg-charts';
 import { Circle, G } from 'react-native-svg';
 import moment from 'moment';
-import { COLORS, FONTS } from '../constants'; 
-
 const Insight = ({ navigation }) => {
   const [data, setData] = useState([[], [], [], [], [], []]);
   const [xAxisLabels, setXAxisLabels] = useState([]);
@@ -65,19 +68,21 @@ const Insight = ({ navigation }) => {
     return `${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
   const handleReset = () => {
-    setBodyPartSelected({ slug: "biceps", intensity: 2 });
-    setIsBackSideEnabled(false);
-    setIsMale(true);
     setTimer(0);
     setIsTimerRunning(false);
+    setData([[], [], [], [], [], []]);
+    setXAxisLabels([]);
   };
   return (
-    <View style={styles.mContainer}>
-      <TouchableOpacity style={{ ...styles.backButton, marginTop: 20, marginLeft:-20, }} onPress={() => navigation.goBack()}>
+
+    <View style={styles.container}>
+       <View>
+      {/* <TouchableOpacity style={{ ...styles.backButton, marginTop: 20, marginLeft:-20, }} onPress={() => navigation.goBack()}>
   <Ionicons name="arrow-back-circle" size={55} color={COLORS.white} />
-</TouchableOpacity>
+</TouchableOpacity>*/}
 
       <View style={styles.container1}>
+      
         <YAxis
           data={data[0]}
           contentInset={contentInset}
@@ -85,8 +90,8 @@ const Insight = ({ navigation }) => {
             fill: 'grey',
             fontSize: 10,
           }}
-          numberOfTicks={10}
-          formatLabel={(value) => `${value.toFixed(2)}`}
+          numberOfTicks={6}  // <-- Change this line
+  formatLabel={(value) => `${value.toFixed(2)}`}
         />
         <LineChart
           style={styles.chart}
@@ -109,6 +114,35 @@ const Insight = ({ navigation }) => {
           yMax={100}
           numberOfTicks={10}
         >
+        <View style={[{ flexDirection: "row",width: '80%',marginLeft:-30,  }]}>
+
+<View style={styles.level}>
+  <Text style={styles.musclegroupText}>
+  <Ionicons name="square" size={12} color={"#07E092"} />
+    <Text style={styles.valueText}>
+    {" "} Quads
+    </Text>
+  </Text>
+</View>
+<View style={styles.level}>
+  <Text style={styles.musclegroupText}>
+  <Ionicons name="square" size={12} color={"#FD5B71"} />
+    <Text style={styles.valueText}>
+    {" "} Hamstrings
+    </Text>
+  </Text>
+
+</View>
+<View style={styles.level}>
+  <Text style={styles.musclegroupText}>
+  <Ionicons name="square" size={12} color={"#936DFF"} />
+    <Text style={styles.valueText}>
+    {" "} Glutes
+    </Text>
+  </Text>
+
+</View>
+</View>
           <Grid
             svg={{
               stroke: 'white',
@@ -119,50 +153,8 @@ const Insight = ({ navigation }) => {
           {/* Additional customization with Decorator if needed */}
         </LineChart>
       </View>
-      <View style={styles.container2}>
-        <YAxis
-          data={data[0]}
-          contentInset={contentInset}
-          svg={{
-            fill: 'grey',
-            fontSize: 10,
-          }}
-          numberOfTicks={10}
-          formatLabel={(value) => `${value.toFixed(2)}`}
-        />
-        <LineChart
-          style={styles.chart}
-          data={[
-            {
-              data: data[3],
-              svg: { stroke: colors[0] },
-            },
-            {
-              data: data[4],
-              svg: { stroke: colors[1] },
-            },
-            {
-              data: data[5],
-              svg: { stroke: colors[2] },
-            },
-          ]}
-          contentInset={contentInset}
-          yMin={0}
-          yMax={100}
-          numberOfTicks={10}
-        >
-          <Grid
-            svg={{
-              stroke: 'white',
-              strokeWidth: 0.25,
-              opacity: 0.5,
-            }}
-          />
-          {/* Additional customization with Decorator if needed */}
-        </LineChart>
-      </View>
-      <View style={styles.container3}>
-      <View style={styles.muscleIndex}>
+    </View>
+            <View style={styles.muscleIndex}>
       <Text style={styles.labelText}>Muscle Fatigue Index</Text>
       <View style={styles.propertiesArea}>
           <View style={styles.level}>
@@ -212,12 +204,18 @@ const Insight = ({ navigation }) => {
     <Text style={styles.timerText}>{formatTime(timer)}</Text>
     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
     <TouchableOpacity onPress={handleStopwatch} className="">
-      {isTimerRunning ? (
-        <Ionicons name="pause-circle" size={55} color={COLORS.white} />
-      ) : (
-        <Ionicons name="play-circle" size={55} color={COLORS.gray} />
-      )}<Text style={[styles.labelText, {paddingLeft: 10}]}>Rest</Text>
-    </TouchableOpacity>
+  {isTimerRunning ? (
+    <>
+      <Ionicons name="pause-circle" size={55} color={COLORS.white} />
+      <Text style={[styles.labelText, {paddingLeft: 10}]}>Pause</Text>
+    </>
+  ) : (
+    <>
+      <Ionicons name="play-circle" size={55} color={COLORS.gray} />
+      <Text style={[styles.labelText, {paddingLeft: 10}]}>Start</Text>
+    </>
+  )}
+</TouchableOpacity>
     <TouchableOpacity onPress={handleReset} className="">
       <Ionicons name="refresh-circle" size={55} color={COLORS.primary} />
       <Text style={[styles.labelText, {paddingLeft: 10}]}>Reset</Text>
@@ -226,122 +224,152 @@ const Insight = ({ navigation }) => {
     </View>
   </View>
     </View>
-    </View>
-  );
-};
-
+  )
+}
 const styles = StyleSheet.create({
-  mContainer: {
-    padding: 20,
-    marginTop: 0,
-    backgroundColor: COLORS.background,
-    flex:1,
-  },
+
   container1: {
     flexDirection: 'row',
-    height: 200,
-    paddingVertical: 16,
-    marginTop:60,
+    paddingVertical: 5,
+    marginTop:0,
+    backgroundColor: COLORS.containerbox,
+    borderRadius: 20, 
+    width:'100%',
+    height:180,
+    marginBottom:15,
+    padding:20,
   },
-  container2: {
-    flexDirection: 'row',
-    height: 180,
-    paddingVertical: 16,
-    marginTop:-50,
-  },
-  container3: {
-    height: 200,
-    paddingVertical: 16,
-    marginTop:-50,
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+    alignItems: "center",
+    justifyContent: "center",
+    padding:20,
+    width:'100%',
   },
   chart: {
+   // flex: 1,
+    marginLeft: 5,
+  },
+ background: { 
     flex: 1,
-    marginLeft: 16,
-  },
-  backButton: {
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    zIndex: 1,
-  },
-  timerContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
-       // paddingTop: Constants.statusBarHeight,
-       backgroundColor: COLORS.containerbox,
-       borderRadius: 20, 
-     //  padding: 20,
-     width:'100%',
-     height:180,
-  },
-  muscleIndex: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-       // paddingTop: Constants.statusBarHeight,
-       backgroundColor: COLORS.containerbox,
-       borderRadius: 20, 
-     //  padding: 20,
-     width:'100%',
-     height:120,
-  },
-  timerText: {
-    ...FONTS.h4,
-    color: COLORS.white,
-    marginBottom: 10,
-  },
-  labelText: {
-    ...FONTS.body4,
-    color: COLORS.gray,
-    marginBottom: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  startButton: {
-    backgroundColor: COLORS.primary,
-    paddingVertical: 10,
+    backgroundColor: "#171725",
     paddingHorizontal: 20,
-    borderRadius: 8,
-  },
-  startButtonText: {
-    ...FONTS.body3,
+},
+logo: {
+    height: SIZES.width * .8,
+    width:  SIZES.width * .8
+},
+titleText: { 
+    ...FONTS.h6, 
+    textAlign: "left",
     color: COLORS.white,
-  },
-  
-  welcomecontainer:{
-    flexDirection:"row",
-    justifyContent:"space-between",
-    alignItems:"center"
-  },
-  propertiesText: {
-    marginTop: 20,
-    fontSize: 21,
-    fontWeight: "500",
+    marginTop:20,
+    marginLeft:70,
+},
+description: { 
+    ...FONTS.h6, 
+    textAlign: "left",
     color: COLORS.white,
-  },
-  propertiesArea: {
-    marginTop: 0,
-    flexDirection: "row",
-   // justifyContent: "flex-start",
-    justifyContent:"space-between",
-    alignItems:"center",
-    width:"65%",
-  },
-  level: {
-    marginRight: 25,
-    marginLeft: 25,
-    justifyContent:"space-between",
-    alignItems:"center"
-  },
-  musclegroupText: {
-    fontSize: 14,
-    color: "#fff",
-  },
-  valueText: {
-    fontSize: 12,
-    color: "#E3E7EC",
-  },
-});
+},
+btn: {
+    width: SIZES.width - 44
+},
+bottomContainer: { 
+    flexDirection: "row", 
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 12
+},
+topview:{
+  marginHorizontal:35,
+  flex:1,
+  justifyContent:"space-between",
+},
+welcomemessage:{
+  color:COLORS.white,
+  fontSize:35,
+  ...FONTS.h5, 
+},
+timerContainer: {
+  alignItems: "center",
+  justifyContent: "center",
+  marginTop: 20,
+     // paddingTop: Constants.statusBarHeight,
+     backgroundColor: COLORS.containerbox,
+     borderRadius: 20, 
+   //  padding: 20,
+   width:'100%',
+   height:180,
+},
+muscleIndex: {
+  alignItems: "center",
+  justifyContent: "center",
+  marginTop: 20,
+     // paddingTop: Constants.statusBarHeight,
+     backgroundColor: COLORS.containerbox,
+     borderRadius: 20, 
+   //  padding: 20,
+   width:'100%',
+   height:120,
+},
+timerText: {
+  ...FONTS.h4,
+  color: COLORS.white,
+  marginBottom: 10,
+},
+labelText: {
+  ...FONTS.body4,
+  color: COLORS.gray,
+  marginBottom: 10,
+  alignItems: "center",
+  justifyContent: "center",
+},
+startButton: {
+  backgroundColor: COLORS.primary,
+  paddingVertical: 10,
+  paddingHorizontal: 20,
+  borderRadius: 8,
+},
+startButtonText: {
+  ...FONTS.body3,
+  color: COLORS.white,
+},
 
-export default Insight;
+welcomecontainer:{
+  flexDirection:"row",
+  justifyContent:"space-between",
+  alignItems:"center"
+},
+propertiesText: {
+  marginTop: 20,
+  fontSize: 21,
+  fontWeight: "500",
+  color: COLORS.white,
+},
+propertiesArea: {
+  marginTop: 0,
+  flexDirection: "row",
+ // justifyContent: "flex-start",
+  justifyContent:"space-between",
+  alignItems:"center",
+  width:"65%",
+},
+level: {
+  marginRight: 25,
+  marginLeft: 25,
+  justifyContent:"space-between",
+  alignItems:"center"
+},
+musclegroupText: {
+  fontSize: 14,
+  color: "#fff",
+},
+valueText: {
+  fontSize: 12,
+  color: "#E3E7EC",
+},
+});
+export default Insight

@@ -70,7 +70,7 @@ const OnboardingScreen = ({navigation}) => {
         <View style={{paddingTop: 0}}>
           {currentSlideIndex == slides.length - 1 ? (
             <View  style={{
-            alignItems: 'center', marginVertical:15,
+            alignItems: 'center', marginVertical:30,
           }}>
             <Button 
                   title="Get Started" 
@@ -101,7 +101,7 @@ const OnboardingScreen = ({navigation}) => {
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
-            marginBottom:40,
+            marginBottom:30,
           }}>
           {/* Render indicator */}
           {slides.map((_, index) => (
@@ -123,12 +123,12 @@ const OnboardingScreen = ({navigation}) => {
 
   return (
     
-    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.background, }}>
+    <View style={{flex: 1, backgroundColor: COLORS.background, height:StatusBar.height }}>
 
   <FlatList
     ref={ref}
     onMomentumScrollEnd={updateCurrentSlideIndex}
-   // contentContainerStyle={{height: windowHeight * 0.75}}
+  // contentContainerStyle={{height: StatusBar.height}}
     showsHorizontalScrollIndicator={false}
     horizontal
     data={slides}
@@ -136,7 +136,7 @@ const OnboardingScreen = ({navigation}) => {
     renderItem={({item}) => <Slide item={item} />}
   />
   <Footer />
- </SafeAreaView>  
+ </View>  
   
   );
 };
@@ -149,6 +149,7 @@ height: windowHeight * 0.75,
     alignItems: "center",
     //width: wp(100), height: hp(75)
     overflow:"visible",
+    flex:1,
   },
   image: {
     width: windowWidth * 1, 
@@ -160,7 +161,7 @@ height: windowHeight * 0.75,
     textAlign: "center",
     color: COLORS.white,
     fontWeight: '500',
-    paddingTop: 20,
+    paddingTop: 40,
     textAlign: 'center',
     maxWidth: '60%'
   },
@@ -168,6 +169,7 @@ height: windowHeight * 0.75,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#171725",
+    
 },
 btn: {
     width: '90%',

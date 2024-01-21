@@ -14,14 +14,17 @@ import {
 } from 'firebase/auth';
 import {
   getDatabase,
+  push,
   ref,
   set,
   update,
   remove,
   get,
+  query,
+  orderByChild,
+  equalTo,
 } from 'firebase/database';
 
-// Additional import statement
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let firebaseApp;
@@ -44,6 +47,8 @@ export const getFirebaseApp = () => {
 
   if (getApps().length === 0) {
     firebaseApp = initializeApp(firebaseConfig);
+    
+    // Initialize Firebase Authentication with AsyncStorage persistence
     initializeAuth(firebaseApp, {
       persistence: getReactNativePersistence(AsyncStorage),
     });
@@ -54,23 +59,17 @@ export const getFirebaseApp = () => {
     return getApps()[0];
   }
 };
-export const signUpWithEmailAndPassword = async (
-  email,
-  password,
-  displayName
-) => {
-  const auth = getAuth(firebaseApp);
+
+export const signUpWithEmailAndPassword = async (email, password, displayName) => {
+  const auth = getAuth(getFirebaseApp());
 
   try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(userCredential.user, { displayName });
 
-    await updateProfile(userCredential.user, {
-      displayName,
-    });
+    // Write user data to Realtime Database with UID
+    const userId = userCredential.user.uid;
+    await writeUserData(userId, displayName, email, '');
 
     return userCredential.user;
   } catch (error) {
@@ -101,24 +100,20 @@ export const signOutUser = async () => {
     throw error;
   }
 };
-// Function to write user data to the Realtime Database
-export const writeUserData = async (userId, name, email, imageUrl) => {
-  const database = getDatabase(firebaseApp);
-  set(ref(database, 'users/' + userId), {
-    username: name,
-    email: email,
-    profile_picture: imageUrl
-  });
-};
 
-export const addUserData = async (userId, userData) => {
-  const database = getDatabase(firebaseApp);
-  const usersRef = ref(database, 'users');
+export const writeUserData = async (userId, firstname, lastname, email, imageUrl) => {
+  const database = getDatabase(getFirebaseApp());
+  const usersRef = ref(database, `users/${userId}`);
 
   try {
-    const newUserRef = push(usersRef);
-    await set(newUserRef, userData);
-    return newUserRef.key;
+    // Use set instead of update to ensure the UID is the child node
+    await set(usersRef, {
+      uid: userId,
+      firstName: firstname,
+      lastName: lastname,
+      email: email,
+      // profile_picture: imageUrl,
+    });
   } catch (error) {
     console.error(error);
     throw error;
@@ -162,6 +157,25 @@ export const fetchUserData = async (userId) => {
       console.log('No data available');
       return null;
     }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+export const fetchUserDataByEmail = async (email) => {
+  const database = getDatabase(firebaseApp);
+  const usersRef = ref(database, 'users');
+
+  try {
+    const queryByEmail = query(usersRef, orderByChild('email'), equalTo(email));
+    const snapshot = await get(queryByEmail);
+
+    if (snapshot.exists()) {
+      const userId = Object.keys(snapshot.val())[0];
+      return snapshot.val()[userId];
+    }
+
+    return null;
   } catch (error) {
     console.error(error);
     throw error;

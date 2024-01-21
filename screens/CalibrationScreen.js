@@ -47,8 +47,9 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView style={{ position: 'absolute', marginVertical: 20, backgroundColor: COLORS.background, flex: 1, width: '100%', height: '100%', padding:20}}>
-      <View style={{ flexDirection: 'row', justifyContent: 'left', alignItems: 'absolute', marginLeft:-20,}}><TouchableOpacity
+    <SafeAreaView style={{ position: 'absolute', backgroundColor: COLORS.background, flex: 1, width: '100%', height: '100%'}}>
+        <View style={{ marginVertical: 20, padding:20 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'left', alignItems: 'absolute', paddingLeft:-5,paddingBottom:10,}}><TouchableOpacity
         onPress={() => navigation.goBack()}
       >
         <Ionicons name="arrow-back-circle" size={55} color={COLORS.white} />
@@ -172,7 +173,7 @@ export default function App() {
             )}
           </Svg>
           <View style={styles.time}>
-            <Text style={{  ...FONTS.h2, fontSize: 40, color: COLORS.white }}>{formatTime(remainingTime)}</Text>
+            <Text style={{  ...FONTS.h3, color: COLORS.white, }}>{formatTime(remainingTime)}</Text>
             <View style={styles.control}>
 
               {isPlaying && (
@@ -195,6 +196,7 @@ export default function App() {
           </View>
         </View>
       </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -207,7 +209,7 @@ export default function App() {
       borderRadius: 20, 
       padding: 20,
       marginVertical: 10,
-      height: 110,
+      height: 120,
       //flex:1,
     },
     container3: {
@@ -219,7 +221,7 @@ export default function App() {
       borderRadius: 20, 
     //  padding: 20,
       height: '50%',
-      marginVertical: 5,
+      marginVertical: 10,
     },
     time: {
     
@@ -231,7 +233,7 @@ export default function App() {
     top: 0,
     width: '100%',
     height: '100%',
-    marginTop:90,
+    marginTop:80,
     },
   timerContainer: {
     borderWidth: 4,

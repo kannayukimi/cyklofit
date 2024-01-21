@@ -2,7 +2,7 @@ import { View, Text } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS, FONTS } from '../constants';
-import { Insight, Profile, Explore, EditProfile, HomScreen, Welcome, DetailScreen, MuscleGroup, DataMonitor } from '../screens';
+import { Insight, Profile, GraphTab, Training, EditProfile, HomScreen, Welcome, DetailScreen, MuscleGroup, DataMonitor } from '../screens';
 import { FontAwesome, Feather, Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator()

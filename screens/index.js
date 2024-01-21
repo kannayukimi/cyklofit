@@ -4,7 +4,7 @@ import Signup from "./Signup";
 import Welcome from "./Welcome";
 import Onboarding from "./Onboarding";
 import HomScreen from "./HomScreen";
-import Explore from "./Explore";
+import Training from "./Training";
 import Chat from "./Chat";
 import Profile from "./Profile";
 import Insight from "./Insight";
@@ -15,6 +15,7 @@ import TestScreen from "./TestScreen";
 import MuscleGroup from "./MuscleGroup";    
 import EditProfile from "./EditProfile";
 import DataMonitor from "./DataMonitor";
+import GraphTab from "./GraphTab";
 export {
     SplashScreenC,
     Login,
@@ -23,7 +24,7 @@ export {
     HomScreen,
     Welcome,
     Chat,
-    Explore,
+    Training,
     Profile,
     Insight,
     CalibrationScreen,
@@ -33,4 +34,5 @@ export {
     MuscleGroup,
     EditProfile,
     DataMonitor,
+    GraphTab,
 }

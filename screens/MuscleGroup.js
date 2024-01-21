@@ -6,13 +6,26 @@ import { COLORS, FONTS, SIZES, images, icons } from "../constants";
 import { Ionicons } from "@expo/vector-icons";
 import 'react-native-gesture-handler';
 import CircularProgress from 'react-native-circular-progress-indicator';
-const MuscleGroup= ({ navigation }) => {
+const MuscleGroup = ({ navigation }) => {
   const [bodyPartSelected, setBodyPartSelected] = useState({
-    slug: "biceps",
+    slug: '',
     intensity: 2,
   });
   const [isBackSideEnabled, setIsBackSideEnabled] = useState(false);
-  const [isMale, setIsMale] = useState(true);
+
+  useEffect(() => {
+    const randomBodyPart = () => {
+      const bodyParts = ['hamstring', 'quadriceps', 'gluteal'];
+      const randomIndex = Math.floor(Math.random() * bodyParts.length);
+      return bodyParts[randomIndex];
+    };
+
+    const intervalId = setInterval(() => {
+      setBodyPartSelected({ slug: randomBodyPart(), intensity: 2 });
+    }, 3000);
+
+    return () => clearInterval(intervalId);
+  }, []);
   const [timer, setTimer] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
@@ -31,7 +44,6 @@ const MuscleGroup= ({ navigation }) => {
   const toggleSwitch = () =>
     setIsBackSideEnabled((previousState) => !previousState);
 
-  const toggleGenderSwitch = () => setIsMale((previousState) => !previousState);
 
   const handleStopwatch = () => {
     setIsTimerRunning((prevValue) => !prevValue);
@@ -44,16 +56,45 @@ const MuscleGroup= ({ navigation }) => {
     return `${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
   const handleReset = () => {
-    setBodyPartSelected({ slug: "biceps", intensity: 2 });
-    setIsBackSideEnabled(false);
-    setIsMale(true);
+    setBodyPartSelected({ slug: "", intensity: 2 });
     setTimer(0);
     setIsTimerRunning(false);
+    
   };
-
+  const getRandomValue = () => Math.floor(Math.random() * 100);
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={{ marginLeft:-130, marginTop:5, flexDirection: "row" }}>
+    <View style={[styles.container]}>
+<View style={[{ flexDirection: "row",
+  alignItems:"center",width: '80%', paddingBottom:65 }]}>
+
+          <View style={styles.level}>
+            <Text style={styles.musclegroupText}>
+            <Ionicons name="square" size={12} color={"#C80C0C"} />
+              <Text style={styles.valueText}>
+              {" "} Low
+              </Text>
+            </Text>
+          </View>
+          <View style={styles.level}>
+            <Text style={styles.musclegroupText}>
+            <Ionicons name="square" size={12} color={"#f39c12"} />
+              <Text style={styles.valueText}>
+              {" "}Medium
+              </Text>
+            </Text>
+          
+          </View>
+          <View style={styles.level}>
+            <Text style={styles.musclegroupText}>
+            <Ionicons name="square" size={12} color={"#2ecc71"} />
+              <Text style={styles.valueText}>
+              {" "} High
+              </Text>
+            </Text>
+          
+          </View>
+        </View>
+      {/* <SafeAreaView style={{ marginLeft:-130, marginTop:5, flexDirection: "row" }}>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}
@@ -65,11 +106,11 @@ const MuscleGroup= ({ navigation }) => {
           />
         </TouchableOpacity>
         <Text style={styles.titleText}>Data Monitoring</Text>
-      </SafeAreaView>
+      </SafeAreaView>*/}
       <View style={styles.bodyContainer}>
       <View style={{ marginVertical: 30 }}>
   <CircularProgress 
-    value={85}
+    value={getRandomValue()}
     inActiveStrokeColor={'#2ecc71'}
     inActiveStrokeOpacity={0.2}
     progressValueColor={'#fff'}
@@ -80,7 +121,7 @@ const MuscleGroup= ({ navigation }) => {
   />
   <View style={{ marginBottom: 20 }}></View>
   <CircularProgress
-    value={52}
+    value={getRandomValue()}
     activeStrokeColor={'#f39c12'}
     inActiveStrokeColor={'#f39c12'}
     inActiveStrokeOpacity={0.2}
@@ -92,7 +133,7 @@ const MuscleGroup= ({ navigation }) => {
   />
   <View style={{ marginBottom: 20 }}></View>
   <CircularProgress
-    value={47}
+    value={getRandomValue()}
     activeStrokeColor={'#f39c12'}
     inActiveStrokeColor={'#f39c12'}
     inActiveStrokeOpacity={0.2}
@@ -103,16 +144,15 @@ const MuscleGroup= ({ navigation }) => {
     strokeWidth={8} // Adjust the strokeWidth as needed
   />
 </View>
-<Body 
-          data={[bodyPartSelected]}
-          onBodyPartPress={(e) =>
-            setBodyPartSelected({ slug: e.slug, intensity: 2 })
-          }
-          gender="male"
-          side="front"
-          scale={0.63}
-          
-        />
+ <Body
+        data={[bodyPartSelected]}
+        onBodyPartPress={(e) =>
+          setBodyPartSelected({ slug: e.slug, intensity: 2 })
+        }
+        gender="male"
+        side="front"
+        scale={0.65}
+      />
         
         <Body
           data={[bodyPartSelected]}
@@ -121,11 +161,11 @@ const MuscleGroup= ({ navigation }) => {
           }
           gender="male"
           side="back"
-          scale={0.63}
+          scale={0.65}
         />
          <View style={{ marginVertical: 30 }}>
       <CircularProgress
-  value={79}
+  value={getRandomValue()}
   inActiveStrokeColor={'#2ecc71'}
   inActiveStrokeOpacity={0.2}
   progressValueColor={'#fff'}
@@ -135,7 +175,7 @@ const MuscleGroup= ({ navigation }) => {
   strokeWidth={8} // Adjust the strokeWidth as needed
 /><View style={{ marginBottom: 20 }}></View>
 <CircularProgress
-  value={68}
+  value={getRandomValue()}
   activeStrokeColor={'#f39c12'}
   inActiveStrokeColor={'#f39c12'}
   inActiveStrokeOpacity={0.2}
@@ -146,7 +186,7 @@ const MuscleGroup= ({ navigation }) => {
   strokeWidth={8} // Adjust the strokeWidth as needed
 /><View style={{ marginBottom: 20 }}></View>
 <CircularProgress
-  value={47}
+  value={getRandomValue()}
   activeStrokeColor={'#f39c12'}
   inActiveStrokeColor={'#f39c12'}
   inActiveStrokeOpacity={0.2}
@@ -159,13 +199,13 @@ const MuscleGroup= ({ navigation }) => {
       </View>
       
      <View style={[styles.propertiesArea, { alignItems: "center" }]}>
-          <View style={styles.level}>
-            <Text style={[styles.labelText, { marginLeft:20 }]}>
+          <View  style={[{marginBottom:-18}]}>
+            <Text style={[styles.labelText, { marginLeft:40,marginTop:60 }]}>
              Front
             </Text>
           </View>
-          <View style={styles.level}>
-          <Text style={[styles.labelText, { marginRight:16 }]}>
+          <View  style={[{marginBottom:-18}]}>
+          <Text style={[styles.labelText, { marginRight:40, marginTop:60}]}>
              Back
             </Text>
           </View>
@@ -221,12 +261,18 @@ const MuscleGroup= ({ navigation }) => {
     <Text style={styles.timerText}>{formatTime(timer)}</Text>
     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
     <TouchableOpacity onPress={handleStopwatch} className="">
-      {isTimerRunning ? (
-        <Ionicons name="pause-circle" size={55} color={COLORS.white} />
-      ) : (
-        <Ionicons name="play-circle" size={55} color={COLORS.gray} />
-      )}<Text style={[styles.labelText, {paddingLeft: 10}]}>Rest</Text>
-    </TouchableOpacity>
+  {isTimerRunning ? (
+    <>
+      <Ionicons name="pause-circle" size={55} color={COLORS.white} />
+      <Text style={[styles.labelText, {paddingLeft: 10}]}>Pause</Text>
+    </>
+  ) : (
+    <>
+      <Ionicons name="play-circle" size={55} color={COLORS.gray} />
+      <Text style={[styles.labelText, {paddingLeft: 10}]}>Start</Text>
+    </>
+  )}
+</TouchableOpacity>
     <TouchableOpacity onPress={handleReset} className="">
       <Ionicons name="refresh-circle" size={55} color={COLORS.primary} />
       <Text style={[styles.labelText, {paddingLeft: 10}]}>Reset</Text>
@@ -249,13 +295,13 @@ const styles = StyleSheet.create({
   bodyContainer: {
     flexDirection: "row",
     flex:2,
-    marginBottom:-50,
+    
+    marginBottom:10,
     justifyContent: 'center',
     alignItems: 'center',
-
-  width:'80%',
+  width:'75%',
     height: '40%',
-    marginVertical: 5,
+    marginVertical: 30,
   },
   switchContainer: {
     flexDirection: "row",

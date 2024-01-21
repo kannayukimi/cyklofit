@@ -36,7 +36,7 @@ const DetailScreen = ({ route, navigation }) => {
       
         <ImageBackground source={getImage(training.id)}    style={{...styles.trainingImage}}/>
       </View>
-      <SafeAreaView style={{...styles.topSection, flexDirection:"row",paddingTop: 15 }}>
+      <SafeAreaView style={{...styles.topSection, flexDirection:"row",paddingTop: 25 }}>
         <TouchableOpacity style={styles.backButton}
           onPress={()=> navigation.goBack()}
 
@@ -67,14 +67,8 @@ const DetailScreen = ({ route, navigation }) => {
                 {training.musclegroups.quads}
               </Text>
             </Text>
-            <Text style={styles.musclegroupText}>
-              Glutes:
-              <Text style={styles.valueText}>
-                {" "}
-                {training.musclegroups.glutes}
-              </Text>
-            </Text>
           </View>
+         
           <View style={styles.level}>
             <Text style={styles.musclegroupText}>
               Hamstrings:
@@ -84,7 +78,44 @@ const DetailScreen = ({ route, navigation }) => {
               </Text>
             </Text>
           </View>
+          <View style={styles.level}>
+          <Text style={styles.musclegroupText}>
+              Glutes:
+              <Text style={styles.valueText}>
+                {" "}
+                {training.musclegroups.glutes}
+              </Text>
+            </Text>
+          </View>
         </View>
+        <View style={[styles.propertiesArea ]}>
+     
+        <View style={styles.level}>
+          <View style={{backgroundColor:"#20202B",  opacity: 1, borderRadius: 70/2, width: 70, height: 70, justifyContent: 'center', alignItems: 'center'}}>
+  <Image
+          source={require("../assets/images/quads-high.png")}
+       
+          style={{width:70, height: 70, borderRadius: 70/2}}
+          />
+</View>
+          </View>
+          <View style={styles.level}>
+          <View style={{backgroundColor:"#20202B",  opacity: 1, borderRadius: 70/2, width: 70, height: 70, justifyContent: 'center', alignItems: 'center'}}>
+  <Image
+    source={require("../assets/images/hams-med.png")}
+    style={{width:70, height: 70, borderRadius: 70/2}}
+  />
+</View>
+          </View>
+          <View style={styles.level}>
+          <View style={{backgroundColor:"#20202B", opacity: 1, borderRadius: 70/2, width: 70, height: 70, justifyContent: 'center', alignItems: 'center'}}>
+  <Image
+          source={require("../assets/images/glutes-high.png")}
+          style={{width:70, height: 70, borderRadius: 70/2}}
+  />
+</View>
+          </View>
+          </View>
 
         <TouchableOpacity style={styles.startButton}>
         <Button
@@ -95,7 +126,7 @@ const DetailScreen = ({ route, navigation }) => {
                                 marginBottom: 48,
                             }}
                             onPress={() =>
-                                navigation.navigate('MuscleGroup')
+                                navigation.navigate('DataMonitor')
                             }
                         />
         </TouchableOpacity>
@@ -163,19 +194,23 @@ const styles = StyleSheet.create({
   imageSection: {
     width: "100%",
     height: 250,
-    justifyContent: "center",
-    alignItems: "center",
+   // resizeMode: 'contain', // Make sure the image covers the entire container
+   justifyContent: 'center',
+   alignItems: 'center',
+ //  overflow: 'visible', // Allow overflow in width
+ flex:1,
   },
   trainingImage: {
-    height: '120%', // Set height to 100%
+    height: '120%', 
     width: '100%',  // Set width to 100%
-    resizeMode: 'cover', // Make sure the image covers the entire container
+   // resizeMode: 'contain', // Make sure the image covers the entire container
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'visible', // Allow overflow in width
+  //  overflow: 'visible', // Allow overflow in width
+  flex:1,
   },
   backButton: {
-   // marginLeft: 20,
+   paddingLeft: 15,
    // marginTop: 10,
   },
   headSection: {},
@@ -216,7 +251,10 @@ const styles = StyleSheet.create({
   propertiesArea: {
     marginTop: 20,
     flexDirection: "row",
-    justifyContent: "flex-start",
+  justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: 30,
+    paddingRight: 20,
   },
   level: {
     marginRight: 30,
