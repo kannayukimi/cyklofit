@@ -325,13 +325,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   infoAreaId1: {
-    width: "80%",
+    width: "85%",
     marginTop: 0,
     marginBottom: 15,
-    paddingLeft: 20,
+    paddingLeft: 15,
   },
   infoAreaId2: {
-    width: "80%",
+    width: "85%",
     marginBottom: -30,
     paddingLeft: 20,
   },

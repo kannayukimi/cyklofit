@@ -1,4 +1,4 @@
-package com.cyklofitui;
+package com.cyklofitui.test;
 
 import android.os.Build;
 import android.os.Bundle;

@@ -56,92 +56,7 @@ export default function App() {
       </TouchableOpacity>
       <Text style={styles.headerText}>Device Calibration</Text>
       </View>
-      <View style={[styles.container2]}>
-      
-      <View style={[styles.propertiesArea, ]}>
-      <Text style={[styles.propertiesText]}>Left</Text>
-          <View style={styles.level}>
-          <Image
-          source={require("../assets/images/quads_n2.png")}
-       
-          style={{width: 47, height: 47}}
-        />
-          </View>
-          <View style={styles.level}>
-            
-            <Image
-          source={require("../assets/images/hams_n2.png")}
-          
-          style={{width: 47, height: 47}}
-        />
-            
-          </View>
-          <View style={styles.level}>
-            
-            <Image
-          source={require("../assets/images/Glutes-n2.png")}
-          
-          style={{width: 47, height: 47}}
-        />
-            
-          </View>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 , width:'48%'}}>
-        <Text style={styles.musclegroupText}>
-             R-G
-              </Text>
-              <Text style={styles.musclegroupText}>
-             R-G
-              </Text>
-              <Text style={styles.musclegroupText}>
-             R-G
-              </Text>
-              </View>
-      </View>
-
-
-      <View style={[styles.container2]}>
-      <View style={[styles.propertiesArea, ]}>
-      <Text style={[styles.propertiesText]}>Right</Text>
-          <View style={styles.level}>
-          <Image
-          source={require("../assets/images/quads_n2.png")}
-       
-          style={{width: 47, height: 47}}
-        />
-          </View>
-          <View style={styles.level}>
-            
-            <Image
-          source={require("../assets/images/hams_n2.png")}
-          
-          style={{width: 47, height: 47}}
-        />
-            
-          </View>
-          <View style={styles.level}>
-            
-            <Image
-          source={require("../assets/images/Glutes-n2.png")}
-          
-          style={{width: 47, height: 47}}
-        />
-            
-          </View>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 , width:'50%'}}>
-        <Text style={styles.musclegroupText}>
-             R-G
-              </Text>
-              <Text style={styles.musclegroupText}>
-             R-G
-              </Text>
-              <Text style={styles.musclegroupText}>
-             R-G
-              </Text>
-              </View>
-      </View>
-
+  
 
 
 
@@ -220,7 +135,7 @@ export default function App() {
       backgroundColor: COLORS.containerbox,
       borderRadius: 20, 
     //  padding: 20,
-      height: '50%',
+      height: '89%',
       marginVertical: 10,
     },
     time: {
